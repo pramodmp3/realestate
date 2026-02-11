@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STACKLY | Luxury Real Estate & Premium Living</title>
+    <style>
+      :root {
+        --primary: #0f172a;
+        --accent: #d4af37;
+        --accent-hover: #b8962e;
+        --light: #ffffff;
+        --gray: #f8fafc;
+        --border: #e2e8f0;
+        --text: #334155;
+        --text-dark: #0f172a;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Inter",
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+        background-color: var(--light);
+      }
+
+      /* --- MOBILE FIRST UTILITIES --- */
+      .container {
+        width: 100%;
+        padding: 0 1.25rem;
+        margin: 0 auto;
+      }
+
+      .section-padding {
+        padding: 4rem 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        border: none;
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--primary);
+      }
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+
+      .btn-dark {
+        background: var(--primary);
+        color: var(--light);
+      }
+      .btn-dark:hover {
+        opacity: 0.9;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .section-title h2 {
+        font-size: 1.85rem;
+        color: var(--primary);
+        margin-bottom: 0.75rem;
+        font-weight: 800;
+      }
+      .underline {
+        width: 60px;
+        height: 4px;
+        background: var(--accent);
+        margin: 0 auto;
+        border-radius: 2px;
+      }
+
+      /* --- NAVBAR --- */
+      nav {
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--primary);
+        letter-spacing: -0.5px;
+      }
+      .logo span {
+        color: var(--accent);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+        list-style: none;
+      }
+      .menu-btn {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary);
+      }
+
+      /* Mobile Menu */
+      .mobile-overlay {
+        position: fixed;
+        inset: 0;
+        background: var(--primary);
+        z-index: 2000;
+        transform: translateX(100%);
+        transition: transform 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+      }
+      .mobile-overlay.active {
+        transform: translateX(0);
+      }
+      .close-btn {
+        align-self: flex-end;
+        font-size: 2.5rem;
+        color: var(--light);
+        cursor: pointer;
+      }
+      .mobile-links {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .mobile-links a {
+        color: var(--light);
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      /* --- HERO --- */
+      .hero {
+        padding: 5rem 0;
+        background:
+          linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+          url("https://images.unsplash.com/photo-1600585154340-be6199f7d009?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        color: var(--light);
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        font-weight: 800;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+      }
+
+      .search-box {
+        background: var(--light);
+        padding: 1.5rem;
+        border-radius: 12px;
+        display: grid;
+        gap: 1rem;
+        box-shadow: var(--shadow-lg);
+      }
+      .search-field {
+        text-align: left;
+      }
+      .search-field label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+      }
+      .search-field input,
+      .search-field select {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      /* --- PROPERTIES & CATEGORIES --- */
+      .grid-1 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .property-card {
+        background: var(--light);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .property-img {
+        height: 240px;
+        position: relative;
+      }
+      .property-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .property-tag {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: var(--accent);
+        color: var(--primary);
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+      .property-content {
+        padding: 1.5rem;
+      }
+      .property-price {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+      .property-specs {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--border);
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        color: var(--text);
+      }
+
+      .cat-scroll {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        scroll-snap-type: x mandatory;
+      }
+      .cat-card {
+        min-width: 280px;
+        height: 350px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        scroll-snap-align: start;
+      }
+      .cat-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+      }
+      .cat-card:hover img {
+        transform: scale(1.1);
+      }
+      .cat-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        color: white;
+      }
+
+      /* --- FAQ --- */
+      .faq-section {
+        background: var(--gray);
+      }
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        background: var(--light);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+      }
+      .faq-question {
+        padding: 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition);
+      }
+      .faq-question:hover {
+        background: #f1f5f9;
+      }
+      .faq-answer {
+        padding: 0 1.25rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        color: var(--text);
+      }
+      .faq-item.active .faq-answer {
+        max-height: 200px;
+        padding-bottom: 1.25rem;
+      }
+      .faq-item.active .faq-question {
+        color: var(--accent);
+      }
+
+      /* --- CONTACT FORM --- */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--gray);
+        font-size: 1rem;
+      }
+      .form-group textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      /* --- NEWSLETTER --- */
+      .newsletter {
+        background: var(--accent);
+        padding: 4rem 0;
+        text-align: center;
+      }
+      .newsletter h2 {
+        color: var(--primary);
+        font-weight: 800;
+        margin-bottom: 1rem;
+      }
+      .newsletter-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 500px;
+        margin: 2rem auto 0;
+      }
+      .newsletter-form input {
+        padding: 1rem;
+        border-radius: 6px;
+        border: none;
+        flex: 1;
+        font-size: 1rem;
+      }
+
+      /* --- FOOTER --- */
+      footer {
+        background: var(--primary);
+        color: #cbd5e1;
+        padding-top: 5rem;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding-bottom: 3rem;
+      }
+      .footer-logo {
+        color: white;
+        font-size: 1.75rem;
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+      }
+      .footer-logo span {
+        color: var(--accent);
+      }
+      .footer-col h4 {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+      .footer-links li {
+        margin-bottom: 0.85rem;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .social-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: var(--transition);
+      }
+      .social-icon:hover {
+        background: var(--accent);
+        color: var(--primary);
+        transform: translateY(-3px);
+      }
+      .social-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      .address-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+
+      /* --- DESKTOP BREAKPOINTS --- */
+      @media (min-width: 768px) {
+        .container {
+          max-width: 720px;
+        }
+        .hero h1 {
+          font-size: 3.5rem;
+        }
+        .grid-1 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .search-box {
+          grid-template-columns: repeat(2, 1fr);
+          padding: 2rem;
+        }
+        .newsletter-form {
+          flex-direction: row;
+        }
+        .newsletter-form .btn {
+          width: auto;
+        }
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .container {
+          max-width: 1200px;
+        }
+        .nav-links {
+          display: flex;
+          gap: 2rem;
+        }
+        .nav-cta {
+          display: block;
+        }
+        .menu-btn {
+          display: none;
+        }
+        .btn {
+          width: auto;
+        }
+        .search-box {
+          grid-template-columns: 1fr 1fr 1fr auto;
+          align-items: flex-end;
+        }
+        .grid-1 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .cat-scroll {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          overflow: visible;
+        }
+        .cat-card {
+          min-width: auto;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr 1.5fr;
+        }
+        .footer-grid {
+          grid-template-columns: 2fr 1fr 1fr 1.5fr;
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 0.8s ease-out;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="container nav-container">
+        <a href="#" class="logo">STACK<span>LY</span></a>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#properties">Properties</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+          <button class="btn btn-primary">List Your Property</button>
+        </div>
+        <div class="menu-btn" id="openMenu">☰</div>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-overlay" id="mobileMenu">
+      <div class="close-btn" id="closeMenu">×</div>
+      <div class="mobile-links">
+        <a href="#home">Home</a>
+        <a href="#properties">Properties</a>
+        <a href="#services">Services</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <button class="btn btn-primary" style="margin-top: 1rem">
+          List Property
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="container">
+        <h1>Elevate Your Living Experience</h1>
+        <p>
+          Discover hand-picked premium properties in the most prestigious
+          neighborhoods.
+        </p>
+        <div class="search-box reveal">
+          <div class="search-field">
+            <label>Location</label>
+            <input type="text" placeholder="Where do you want to live?" />
+          </div>
+          <div class="search-field">
+            <label>Property Type</label>
+            <select>
+              <option>Luxury Villa</option>
+              <option>Penthouse</option>
+              <option>Modern Apartment</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <label>Price Range</label>
+            <select>
+              <option>$500k - $1M</option>
+              <option>$1M - $5M</option>
+              <option>$5M+</option>
+            </select>
+          </div>
+          <button class="btn btn-dark">Search Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROPERTIES -->
+    <section class="section-padding container" id="properties">
+      <div class="section-title reveal">
+        <h2>Our Featured Estates</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="grid-1">
+        <div class="property-card reveal">
+          <div class="property-img">
+            <span class="property-tag">New Listing</span>
+            <img
+              src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80"
+            />
+          </div>
+          <div class="property-content">
+            <div class="property-price">$4,850,000</div>
+            <h3>The Glass Pavilion</h3>
+            <p>Malibu, California</p>
+            <div class="property-specs">
+              <span>🛏 5 Beds</span> <span>🛁 6 Baths</span>
+              <span>📏 6,200 sqft</span>
+            </div>
+            <button class="btn btn-dark">View Details</button>
+          </div>
+        </div>
+        <div class="property-card reveal">
+          <div class="property-img">
+            <span class="property-tag">Featured</span>
+            <img
+              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
+            />
+          </div>
+          <div class="property-content">
+            <div class="property-price">$2,100,000</div>
+            <h3>Azure Sky Penthouse</h3>
+            <p>Miami, Florida</p>
+            <div class="property-specs">
+              <span>🛏 3 Beds</span> <span>🛁 3 Baths</span>
+              <span>📏 2,800 sqft</span>
+            </div>
+            <button class="btn btn-dark">View Details</button>
+          </div>
+        </div>
+        <div class="property-card reveal">
+          <div class="property-img">
+            <span class="property-tag">Selling Fast</span>
+            <img
+              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80"
+            />
+          </div>
+          <div class="property-content">
+            <div class="property-price">$1,450,000</div>
+            <h3>Emerald Forest Manor</h3>
+            <p>Austin, Texas</p>
+            <div class="property-specs">
+              <span>🛏 4 Beds</span> <span>🛁 4 Baths</span>
+              <span>📏 4,500 sqft</span>
+            </div>
+            <button class="btn btn-dark">View Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section-padding faq-section" id="faq">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Frequently Asked Questions</h2>
+          <div class="underline"></div>
+        </div>
+        <div class="faq-container reveal">
+          <div class="faq-item">
+            <div class="faq-question">
+              What documents do I need to buy a home? <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Standard requirements include proof of identity, proof of income
+              (last 3-6 months), credit report, and initial deposit evidence.
+              Our agents provide a full checklist during your first
+              consultation.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              Are there hidden fees in the buying process? <span>+</span>
+            </div>
+            <div class="faq-answer">
+              STACKLY prides itself on transparency. Beyond the property price,
+              standard closing costs include title insurance, escrow fees, and
+              inspections. We provide a full cost breakdown upfront.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              How long does a typical closing take? <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Usually, the process takes 30 to 45 days. However, cash offers can
+              sometimes close in as little as 10-14 days.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section-padding container" id="contact">
+      <div class="contact-grid">
+        <div class="reveal">
+          <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem">Get in Touch</h2>
+          <p style="margin-bottom: 2rem">
+            Our luxury real estate consultants are ready to help you find your
+            next home or manage your portfolio.
+          </p>
+          <div class="address-item">
+            <strong>📍 Office:</strong> 452 Luxury Lane, Suite 100, Beverly
+            Hills, CA 90210
+          </div>
+          <div class="address-item">
+            <strong>📞 Phone:</strong> +1 (800) STACKLY
+          </div>
+          <div class="address-item">
+            <strong>✉️ Email:</strong> concierge@stackly.com
+          </div>
+        </div>
+        <div class="reveal">
+          <form id="contactForm">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="John Doe" required />
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea
+                placeholder="Tell us what you're looking for..."
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+      <div class="container">
+        <h2 class="reveal">Join the STACKLY Circle</h2>
+        <p class="reveal">
+          Exclusive listings and market insights delivered to your inbox.
+        </p>
+        <form class="newsletter-form reveal">
+          <input type="email" placeholder="Your best email address..." />
+          <button class="btn btn-dark">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">STACK<span>LY</span></div>
+          <p>
+            The world's leading luxury real estate platform. We connect elite
+            buyers with architectural masterpieces across the globe.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+            </a>
+            <a href="#" class="social-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Our Agents</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Buy Properties</a></li>
+            <li><a href="#">Rent Homes</a></li>
+            <li><a href="#">Sell Property</a></li>
+            <li><a href="#">Market News</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <div class="address-item">📍 452 Luxury Lane, Beverly Hills, CA</div>
+          <div class="address-item">📞 +1 800-STACK-LY</div>
+          <div class="address-item">✉️ help@stackly.com</div>
+        </div>
+      </div>
+      <div
+        style="
+          text-align: center;
+          padding: 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          font-size: 0.8rem;
+        "
+      >
+        &copy; 2024 STACKLY Real Estate. All Rights Reserved. Privacy Policy |
+        Terms of Service
+      </div>
+    </footer>
+
+    <script>
+      // Mobile Menu Logic
+      const openBtn = document.getElementById("openMenu");
+      const closeBtn = document.getElementById("closeMenu");
+      const menu = document.getElementById("mobileMenu");
+
+      openBtn.onclick = () => menu.classList.add("active");
+      closeBtn.onclick = () => menu.classList.remove("active");
+
+      document.querySelectorAll(".mobile-links a").forEach((link) => {
+        link.onclick = () => menu.classList.remove("active");
+      });
+
+      // FAQ Logic
+      document.querySelectorAll(".faq-question").forEach((q) => {
+        q.onclick = () => {
+          const item = q.parentElement;
+          item.classList.toggle("active");
+          q.querySelector("span").innerText = item.classList.contains("active")
+            ? "-"
+            : "+";
+        };
+      });
+
+      // Form Submission (Mock)
+      document.getElementById("contactForm").onsubmit = (e) => {
+        e.preventDefault();
+        alert("Thank you! Your inquiry has been sent to our concierge team.");
+        e.target.reset();
+      };
+
+      // Scroll Reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const checkReveal = () => {
+        reveals.forEach((r) => {
+          if (r.getBoundingClientRect().top < window.innerHeight - 50)
+            r.classList.add("active");
+        });
+      };
+      window.onscroll = checkReveal;
+      window.onload = checkReveal;
+    </script>
+  </body>
+</html>
